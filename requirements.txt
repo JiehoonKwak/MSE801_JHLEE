@@ -1,0 +1,12 @@
+# General dependencies
+fastqc
+multiqc
+fastp
+bwa
+samtools
+gatk4
+parallel
+
+# Channels
+-c conda-forge
+-c bioconda
