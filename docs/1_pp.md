@@ -112,13 +112,13 @@ Mark duplicates (Deduplicate) and Sorting alignment file using `GATK4:: MarkDupl
 
 ```bash
 cd ..
-gatk MarkDuplicatesSpark -I out/Blood.sam -O out/Blood.bam
-gatk MarkDuplicatesSpark -I out/Tumor.sam -O out/Tumor.bam
-gatk MarkDuplicatesSpark -I out/Svz.sam -O out/Svz.bam
+gatk MarkDuplicatesSpark -I out/Blood.sam -O out/Blood.bam --spark-master "local[4]"
+gatk MarkDuplicatesSpark -I out/Tumor.sam -O out/Tumor.bam --spark-master "local[4]"
+gatk MarkDuplicatesSpark -I out/Svz.sam -O out/Svz.bam --spark-master "local[4]"
 
 # or you can do this way
 for sample in Blood Tumor Svz; do
-  gatk MarkDuplicatesSpark -I out/${sample}.sam -O out/${sample}.bam
+  gatk MarkDuplicatesSpark -I out/${sample}.sam -O out/${sample}.bam --spark-master "local[4]"
 done
 
 ls out
@@ -130,30 +130,30 @@ Then, again check with `samtools` as above
 adjust base quality based on machine learning, using known variants
 1. Build Model
 ```bash
-gatk BaseRecalibrator -I out/Blood.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_blood.table
+gatk BaseRecalibratorSpark -I out/Blood.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_blood.table --spark-master "local[4]"
 
-gatk BaseRecalibrator -I out/Tumor.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_tumor.table
+gatk BaseRecalibratorSpark -I out/Tumor.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_tumor.table --spark-master "local[4]"
 
-gatk BaseRecalibrator -I out/Svz.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_svz.table
+gatk BaseRecalibratorSpark -I out/Svz.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_svz.table --spark-master "local[4]"
 
 # you can do this way
 for sample in Blood Tumor Svz; do
-  gatk BaseRecalibrator -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_${sample}.table
+  gatk BaseRecalibratorSpark -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_${sample}.table --spark-master "local[4]"
 done
 
 ```
 
 2. Adjust base quality scores based on model
 ```bash
-gatk ApplyBQSR -I out/Blood.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_blood.table -O out/Blood_bqsr.bam
+gatk ApplyBQSRSpark -I out/Blood.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_blood.table -O out/Blood_bqsr.bam --spark-master "local[4]"
 
-gatk ApplyBQSR -I out/Tumor.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_tumor.table -O out/Tumor_bqsr.bam
+gatk ApplyBQSRSpark -I out/Tumor.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_tumor.table -O out/Tumor_bqsr.bam --spark-master "local[4]"
 
-gatk ApplyBQSR -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_svz.table -O out/Svz_bqsr.bam
+gatk ApplyBQSRSpark -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_svz.table -O out/Svz_bqsr.bam --spark-master "local[4]"
 
 # you can do this way
 for sample in Blood Tumor Svz; do
-  gatk ApplyBQSR -I out/${sample}.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_${sample}.table -O out/${sample}_bqsr.bam
+  gatk ApplyBQSRSpark -I out/${sample}.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_${sample}.table -O out/${sample}_bqsr.bam --spark-master "local[4]"
 done
 ```
   

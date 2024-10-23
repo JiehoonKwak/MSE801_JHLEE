@@ -3,5 +3,6 @@
 /ref
 /tmp
 /original
+/qc
 /raw_multiqc_report_data
 *.html
