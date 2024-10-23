@@ -17,7 +17,7 @@ conda install --file requirements.txt
 ```
 
 ## Table of Contents
-- Part1 : [Process Analyze-ready bam file](1_pp.md)
-- Part2 : [Variant Calling & Downstream Analysis](2_vc.md)
+- Part1 : [Process Analyze-ready bam file](docs/1_pp.md)
+- Part2 : [Variant Calling & Downstream Analysis](docs/2_vc.md)
 - Part3 : Amplicon sequencing using `dada2`
 
