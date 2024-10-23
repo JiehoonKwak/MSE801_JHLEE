@@ -6,6 +6,7 @@ bwa
 samtools
 gatk4
 parallel
+seqtk
 
 # Channels
 -c conda-forge

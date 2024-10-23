@@ -1,0 +1,7 @@
+Sample	fastqc-percent_duplicates	fastqc-percent_gc	fastqc-avg_sequence_length	fastqc-median_sequence_length	fastqc-percent_fails	fastqc-total_sequences
+SRR7138437_WES_of_homo_sapiens_brain_of_brain_tumor_patient_1	35.073355905626286	48.0	101.0	101	0.0	115.207661
+SRR7138437_WES_of_homo_sapiens_brain_of_brain_tumor_patient_2	35.518039395357675	48.0	101.0	101	0.0	115.207661
+SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_1	38.3442192327529	48.0	101.0	101	0.0	140.34514
+SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_2	38.765223433045435	48.0	101.0	101	0.0	140.34514
+SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_1	28.587630400235653	46.0	101.0	101	0.0	144.725851
+SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_2	27.426904090914576	46.0	101.0	101	0.0	144.725851
