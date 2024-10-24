@@ -11,9 +11,10 @@ For those who wants to follow the whole workflow with real-world dataset, refer 
 - download the data from the link provided in [HERE](docs/demo_setup.md)
 - install packages from `requirements.txt` in your own, new conda environment
 ```bash
+curl -L -O https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/requirements.txt
 conda create -n YOUR_ENV -y
 conda activate YOUR_ENV
-conda install --file requirements.txt
+conda install --file requirements.txt  -c conda-forge -c bioconda -y
 ```
 
 ## Table of Contents

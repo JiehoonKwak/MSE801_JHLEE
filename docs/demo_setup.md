@@ -2,7 +2,7 @@
 - **This is data prepartion process for demo workflow. If you want to follow whole workflow with real-world dataset, refer to [this](whole_setup.md)**
 - **TL;DR** : run following code
 ```bash
-curl -o run.sh https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh && chmod +x download_demo.sh && ./download_demo.sh
+curl https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh && chmod +x download_demo.sh && ./download_demo.sh
 ```
 
 ## How datas were created

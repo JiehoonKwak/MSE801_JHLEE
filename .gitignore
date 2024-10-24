@@ -5,4 +5,4 @@
 /original
 /qc
 /raw_multiqc_report_data
-*.html
+/ready_multiqc_report_data

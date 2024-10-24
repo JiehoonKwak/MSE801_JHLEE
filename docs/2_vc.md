@@ -5,7 +5,7 @@ GATK : [Somatic short variant discovery(CNVs)](https://gatk.broadinstitute.org/h
 ### 1. Call candidate variants
 Call variants using `GATK4::Mutect2` (This takes long time)
 ```bash
-gatk Mutec2 -R hg38 -I normal.bam -I tumor.bam -tumor tumor -normal normal -O somatic.vcf \
+gatk Mutect2 -R hg38 -I normal.bam -I tumor.bam -tumor tumor -normal normal -O somatic.vcf \
 --germline-resource af-only-gnomad.hg38.vcf.gz --panel-of-normals 1000g_pon.hg38.vcf.gz \
 --f1r2-tar-gz f1r2.tar.gz
 ```

@@ -145,15 +145,20 @@ done
 
 2. Adjust base quality scores based on model
 ```bash
-gatk ApplyBQSRSpark -I out/Blood.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_blood.table -O out/Blood_bqsr.bam --spark-master "local[4]"
+gatk ApplyBQSRSpark -I out/Blood.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Blood.table -O out/Blood_bqsr.bam --spark-master "local[4]"
 
-gatk ApplyBQSRSpark -I out/Tumor.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_tumor.table -O out/Tumor_bqsr.bam --spark-master "local[4]"
+gatk ApplyBQSRSpark -I out/Tumor.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Tumor.table -O out/Tumor_bqsr.bam --spark-master "local[4]"
 
-gatk ApplyBQSRSpark -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_svz.table -O out/Svz_bqsr.bam --spark-master "local[4]"
+gatk ApplyBQSRSpark -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Svz.table -O out/Svz_sbqsr.bam --spark-master "local[4]"
 
-# you can do this way
+# you can do this way - parallel
 for sample in Blood Tumor Svz; do
   gatk ApplyBQSRSpark -I out/${sample}.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_${sample}.table -O out/${sample}_bqsr.bam --spark-master "local[4]"
+done
+
+# older version
+for sample in Blood Tumor Svz; do
+  gatk ApplyBQSR -I out/${sample}.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_${sample}.table -O out/${sample}_bqsr.bam
 done
 ```
   
@@ -161,7 +166,7 @@ Now, analysis-ready bam file is ready for downstream analysis.
 But before we begin, let's check some metrices.  
 
 ### 6. (Optional) Collect alignment metrics
-Collect alignment metrics and Insert size metrics using `GATK4` (This takes long)
+Collect alignment metrics and Insert size metrics using `GATK4` (This takes long) and check with `multiqc`
 ```bash
 gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Blood_bqsr.bam -O out/alignment_metrics_blood.txt
 gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Tumor_bqsr.bam -O out/alignment_metrics_tumor.txt
@@ -178,3 +183,9 @@ for sample in Blood Tumor Svz; do
   gatk CollectInsertSizeMetrics -I out/${sample}_bqsr.bam -O out/insert_metrics_${sample}.txt -H out/insert_histogram_${sample}.pdf
 done
 ```
+
+```bash
+multiqc out -o . -n ready_multiqc_report.html
+```
+  
+and check it
