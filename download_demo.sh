@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 TARGET_DIR="$PWD/raw"
 
 mkdir -p "$TARGET_DIR"
