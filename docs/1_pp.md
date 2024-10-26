@@ -92,7 +92,7 @@ for R1 in raw/*_1.fastq.gz; do
       SHORT_NAME="Svz"
     else
       SHORT_NAME="Tumor"
-    fdi
+    fi
     OPTIONS="@RG\tID:${SHORT_NAME}\tSM:${SHORT_NAME}\tPL:ILLUMINA\tLB:ILLUMINA"
 
     bwa mem -Ma -t 4 -R "$OPTIONS" ref/hg38.fa "$R1" "$R2" > "out/${SHORT_NAME}.sam"
