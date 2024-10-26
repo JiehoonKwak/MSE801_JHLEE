@@ -16,7 +16,7 @@ gatk Mutect2 -R ref/hg38.fa \
     --germline-resource ref/af-only-gnomad.hg38.vcf.gz \
     --panel-of-normals ref/1000g_pon.hg38.vcf.gz \
     --f1r2-tar-gz out/Tumor_f1r2.tar.gz \ 
-    --native-pair-hmm-threads 36
+    --native-pair-hmm-threads 4
 
 # run for SVZ
 gatk Mutect2 -R ref/hg38.fa \
@@ -27,7 +27,7 @@ gatk Mutect2 -R ref/hg38.fa \
     --germline-resource ref/af-only-gnomad.hg38.vcf.gz \
     --panel-of-normals ref/1000g_pon.hg38.vcf.gz \
     --f1r2-tar-gz out/Svz_f1r2.tar.gz \
-    --native-pair-hmm-threads 36
+    --native-pair-hmm-threads 4
 
 # cf, you can run multiple samples at once
 # gatk Mutect2 -R ref/hg38.fa \
