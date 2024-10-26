@@ -1,7 +1,0 @@
-.	Basic Statistics	Per Base Sequence Quality	Per Tile Sequence Quality	Per Sequence Quality Scores	Per Base Sequence Content	Per Sequence GC Content	Per Base N Content	Sequence Length Distribution	Sequence Duplication Levels	Overrepresented Sequences	Adapter Content
-SRR7138437_WES_of_homo_sapiens_brain_of_brain_tumor_patient_1	1	1	1	1	1	0.5	1	1	0.5	1	1
-SRR7138437_WES_of_homo_sapiens_brain_of_brain_tumor_patient_2	1	1	1	1	1	0.5	1	1	0.5	1	1
-SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_1	1	1	0.5	1	1	0.5	1	1	0.5	1	1
-SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_2	1	1	1	1	1	0.5	1	1	0.5	1	1
-SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_1	1	1	1	1	1	0.5	1	1	1	1	1
-SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_2	1	1	1	1	1	0.5	1	1	1	1	1
