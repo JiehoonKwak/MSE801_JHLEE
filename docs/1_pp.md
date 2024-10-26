@@ -1,11 +1,10 @@
-# Case 1 : WGS
 ## Part 1. Process Analyze-ready bam file
 GATK4 : [Data pre-processing for variant discovery](https://gatk.broadinstitute.org/hc/en-us/articles/360035535912-Data-pre-processing-for-variant-discovery)
 
 ### 1. Create index files
 - create `.fai` file
 ```bash
-gunzip hg38.fa.gz
+# gunzip hg38.fa.gz
 samtools faidx hg38.fa
 ```
 - create `.dict` file
@@ -86,21 +85,20 @@ raw/subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor
 for R1 in raw/*_1.fastq.gz; do
     R2=${R1/_1.fastq.gz/_2.fastq.gz}
     SAMPLE_NAME=$(basename "$R1" _1.fastq.gz)
-    OPTIONS="@RG\tID:${SAMPLE_NAME}\tSM:${SAMPLE_NAME}\tPL:ILLUMINA\tLB:ILLUMINA"
 
-    bwa mem -Ma -t 16 -R "$OPTIONS" ref/hg38.fa "$R1" "$R2" > "out/${SAMPLE_NAME}.sam"
+    if [[ "$SAMPLE_NAME" == *"blood"* ]]; then
+      SHORT_NAME="Blood"
+    elif [[ "$SAMPLE_NAME" == *"subventricular"* ]]; then
+      SHORT_NAME="Svz"
+    else
+      SHORT_NAME="Tumor"
+    fdi
+    OPTIONS="@RG\tID:${SHORT_NAME}\tSM:${SHORT_NAME}\tPL:ILLUMINA\tLB:ILLUMINA"
+
+    bwa mem -Ma -t 4 -R "$OPTIONS" ref/hg38.fa "$R1" "$R2" > "out/${SHORT_NAME}.sam"
 done
 ```
-  
-Let's rename files for make it clean (run if you used for loop)
-```bash
-cd out
 
-mv subsampled_SRR7138437_WES_of_homo_sapiens_brain_of_brain_tumor_patient.sam Tumor.sam
-mv subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient.sam Svz.sam
-mv subsampled_SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient.sam Blood.sam
-```
-  
 Then, check output using `samtools`
 ```bash
 samtools view Blood.sam | less
@@ -138,7 +136,7 @@ gatk BaseRecalibratorSpark -I out/Svz.bam -R ref/hg38.fa --known-sites ref/Homo_
 
 # you can do this way
 for sample in Blood Tumor Svz; do
-  gatk BaseRecalibratorSpark -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_${sample}.table --spark-master "local[4]"
+  gatk BaseRecalibratorSpark -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_${sample}.table --spark-master "local[4]" # --tmp-dir /tmp
 done
 
 ```
@@ -149,7 +147,7 @@ gatk ApplyBQSRSpark -I out/Blood.bam -R ref/hg38.fa --bqsr-recal-file out/recal_
 
 gatk ApplyBQSRSpark -I out/Tumor.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Tumor.table -O out/Tumor_bqsr.bam --spark-master "local[4]"
 
-gatk ApplyBQSRSpark -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Svz.table -O out/Svz_sbqsr.bam --spark-master "local[4]"
+gatk ApplyBQSRSpark -I out/Svz.bam -R ref/hg38.fa --bqsr-recal-file out/recal_data_Svz.table -O out/Svz_bqsr.bam --spark-master "local[36]"
 
 # you can do this way - parallel
 for sample in Blood Tumor Svz; do
@@ -168,13 +166,13 @@ But before we begin, let's check some metrices.
 ### 6. (Optional) Collect alignment metrics
 Collect alignment metrics and Insert size metrics using `GATK4` (This takes long) and check with `multiqc`
 ```bash
-gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Blood_bqsr.bam -O out/alignment_metrics_blood.txt
-gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Tumor_bqsr.bam -O out/alignment_metrics_tumor.txt
-gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Svz_bqsr.bam -O out/alignment_metrics_svz.txt
+gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Blood_bqsr.bam -O out/alignment_metrics_Blood.txt
+gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Tumor_bqsr.bam -O out/alignment_metrics_Tumor.txt
+gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/Svz_bqsr.bam -O out/alignment_metrics_Svz.txt
 
-gatk CollectInsertSizeMetrics -I out/Blood_bqsr.bam -O out/insert_metrics_blood.txt -H out/insert_histogram_blod.pdf
-gatk CollectInsertSizeMetrics -I out/Tumor_bqsr.bam -O out/insert_metrics_tumor.txt -H out/insert_histogram_tumor.pdf
-gatk CollectInsertSizeMetrics -I out/Svz_bqsr.bam -O out/insert_metrics_svz.txt -H out/insert_histogram_svz.pdf
+gatk CollectInsertSizeMetrics -I out/Blood_bqsr.bam -O out/insert_metrics_Blood.txt -H out/insert_histogram_Blood.pdf
+gatk CollectInsertSizeMetrics -I out/Tumor_bqsr.bam -O out/insert_metrics_Tumor.txt -H out/insert_histogram_Tumor.pdf
+gatk CollectInsertSizeMetrics -I out/Svz_bqsr.bam -O out/insert_metrics_Svz.txt -H out/insert_histogram_Svz.pdf
 
 # you can do this
 for sample in Blood Tumor Svz; do
@@ -182,6 +180,12 @@ for sample in Blood Tumor Svz; do
   
   gatk CollectInsertSizeMetrics -I out/${sample}_bqsr.bam -O out/insert_metrics_${sample}.txt -H out/insert_histogram_${sample}.pdf
 done
+
+# or this
+parallel -j 3 sample={} '
+  gatk CollectAlignmentSummaryMetrics -R ref/hg38.fa -I out/{}_bqsr.bam -O out/alignment_metrics_{}.txt;
+  gatk CollectInsertSizeMetrics -I out/{}_bqsr.bam -O out/insert_metrics_{}.txt -H out/insert_histogram_{}.pdf
+' ::: Blood Tumor Svz
 ```
 
 ```bash

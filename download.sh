@@ -1,4 +1,5 @@
 #!/bin/bash
+TARGET_DIR="$HOME/demo/ref"
 
 TARGET_DIR="$HOME/demo/ref"
 

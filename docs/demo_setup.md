@@ -2,7 +2,7 @@
 - **This is data prepartion process for demo workflow. If you want to follow whole workflow with real-world dataset, refer to [this](whole_setup.md)**
 - **TL;DR** : run following code
 ```bash
-curl https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh && chmod +x download_demo.sh && ./download_demo.sh
+bash <(curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh)
 ```
 
 ## How datas were created
@@ -40,4 +40,9 @@ curl -L https://storage.googleapis.com/gatk-best-practices/somatic-hg38/1000g_po
 - Interval files
 ```bash
 curl -L https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/exome_calling_regions.v1.1.interval_list -o exome_calling_regions.v1.1.interval_list
+```
+
+- Funcotator source file
+```bash
+gatk FuncotatorDataSourceDownloader --somatic --validate-integrity --extract-after-download --hg38
 ```

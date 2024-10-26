@@ -47,3 +47,8 @@ curl -L https://storage.googleapis.com/gatk-best-practices/somatic-hg38/1000g_po
 ```bash
 curl -L https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/exome_calling_regions.v1.1.interval_list -o exome_calling_regions.v1.1.interval_list
 ```
+
+- Funcotator source file
+```bash
+gatk FuncotatorDataSourceDownloader --somatic --validate-integrity --extract-after-download --hg38
+```
