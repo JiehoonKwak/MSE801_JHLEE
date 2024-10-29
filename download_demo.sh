@@ -1,30 +1,33 @@
 #!/bin/bash
 set -x
 TARGET_DIR="$PWD/raw"
+REPO="JiehoonKwak/MSE801_JHLEE"
 
 mkdir -p "$TARGET_DIR"
 
-download_if_not_exists() {
-  local url=$1
-  local output=$2
-  if [ ! -f "$output" ]; then
-    curl -L "$url" -o "$output"
-  else
-    echo "File $output already exists. Skipping download."
-  fi
-}
+# Check if gh CLI is installed
+if ! command -v gh &> /dev/null
+then
+    echo "gh CLI could not be found, re-check Step 1."
+    exit 1
+fi
+
+if [ ! -d "$REPO" ]; then
+  gh repo clone "$REPO" -- --filter=blob:none --sparse
+  cd MSE801_JHLEE
+else
+  cd MSE801_JHLEE
+  git pull
+fi
+
+git sparse-checkout set raw
+git lfs pull
+
+cp raw/* "$TARGET_DIR/"
+echo "Files have been downloaded to $TARGET_DIR"
 
 
 ### Following sections were prepared for the demo ###
-
-# 1. Download files in raw/ from GitHub directory
-GITHUB_RAW_URL="https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/raw"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_1.fastq.gz" "$TARGET_DIR/subsampled_SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_1.fastq.gz"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_2.fastq.gz" "$TARGET_DIR/subsampled_SRR7138440_WES_of_homo_sapiens_blood_of_brain_tumor_patient_2.fastq.gz"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138435_WES_of_homo_sapiens_tumor_of_brain_tumor_patient_1.fastq.gz" "$TARGET_DIR/subsampled_SRR7138435_WES_of_homo_sapiens_tumor_of_brain_tumor_patient_1.fastq.gz"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138435_WES_of_homo_sapiens_tumor_of_brain_tumor_patient_2.fastq.gz" "$TARGET_DIR/subsampled_SRR7138435_WES_of_homo_sapiens_tumor_of_brain_tumor_patient_2.fastq.gz"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_1.fastq.gz" "$TARGET_DIR/subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_1.fastq.gz"
-download_if_not_exists "$GITHUB_RAW_URL/subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_2.fastq.gz" "$TARGET_DIR/subsampled_SRR7138438_WES_of_homo_sapiens_subventricular_zone_of_brain_tumor_patient_2.fastq.gz"
 
 # 2. Download sequence of Chr5 
 # download_if_not_exists "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr5.fa.gz" "$TARGET_DIR/hg38.fa.gz"

@@ -1,3 +1,4 @@
+gh
 fastqc
 multiqc
 seqkit

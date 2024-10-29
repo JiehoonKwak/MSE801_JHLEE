@@ -20,9 +20,10 @@ Use `af-only-gnomad.hg38.vcf.gz` and `exome_calling_regions.v1.1.interval_list` 
 Call variants using `GATK4::Mutect2` (This takes **VERY long** time)
 - `Matched Noraml` : normal samples from same individual, to eliminate germline variants
 - `Panel of Normal` : unrelated "normal" samples, to eliminate common/recurring technical artifacts
+- remove `-L` parameter for real-world data
 ```bash
 # run for Tumor
-# real	6m44.050s + 5m45.350s
+# real	5m48.879s + 5m57.886s
 gatk Mutect2 -R ref/hg38.fa \
     -I out/Tumor_bqsr.bam \
     -I out/Blood_bqsr.bam \
@@ -41,8 +42,8 @@ gatk Mutect2 -R ref/hg38.fa \
     -normal Blood \
     -O out/Svz.vcf.gz \
     -L chr5 \
-    --germline-resource ref/af-only-gnomad.chr5.hg38.vcf.gz \
-    --panel-of-normals ref/1000g_pon.chr5.hg38.vcf.gz \
+    --germline-resource ref/af-only-gnomad.hg38.vcf.gz \
+    --panel-of-normals ref/1000g_pon.hg38.vcf.gz \
     --f1r2-tar-gz out/Svz_f1r2.tar.gz \
     --native-pair-hmm-threads 4
 
@@ -70,21 +71,21 @@ calculate cross-sample contamination using `GATK4::CalculateContamination`
 ```bash
 - normal tissue
 ```bash
-gatk GetPileupSummaries -I out/Blood_bqsr.bam -V ref/af-only-gnomad.chr5.hg38.vcf.gz -L ref/exome_calling_regions.chr5.interval_list -O out/Blood_pileups.table
+gatk GetPileupSummaries -I out/Blood_bqsr.bam -V ref/af-only-gnomad.hg38.vcf.gz -L ref/exome_calling_regions.v1.1.interval_list -O out/Blood_pileups.table
 ```
 
 - tumor tissue
 ```bash
-gatk GetPileupSummaries -I out/Tumor_bqsr.bam -V ref/af-only-gnomad.chr5.hg38.vcf.gz -L ref/exome_calling_regions.chr5.interval_list -O out/Tumor_pileups.table
+gatk GetPileupSummaries -I out/Tumor_bqsr.bam -V ref/af-only-gnomad.hg38.vcf.gz -L ref/exome_calling_regions.v1.1.interval_list -O out/Tumor_pileups.table
 
-gatk GetPileupSummaries -I out/Svz_bqsr.bam -V ref/af-only-gnomad.chr5.hg38.vcf.gz -L ref/exome_calling_regions.chr5.interval_list -O out/Svz_pileups.table
+gatk GetPileupSummaries -I out/Svz_bqsr.bam -V ref/af-only-gnomad.hg38.vcf.gz -L ref/exome_calling_regions.v1.1.interval_list -O out/Svz_pileups.table
 ```
 
 for loops
 ```bash
 # real 1m20.753s
 for sample in Blood Tumor Svz; do
-  gatk GetPileupSummaries -I out/${sample}_bqsr.bam -V ref/af-only-gnomad.chr5.vcf.gz -L ref/exome_calling_regions.chr5.interval_list -O out/${sample}_pileups.table
+  gatk GetPileupSummaries -I out/${sample}_bqsr.bam -V ref/af-only-gnomad.hg38.vcf.gz -L ref/exome_calling_regions.v1.1.interval_list -O out/${sample}_pileups.table
 done
 ```
   
