@@ -23,7 +23,7 @@ Perform quality control of fastq files with `fastqc`
 - `-t` : number of threads
 ```bash
 # real	0m51.862s
-mkdir qc
+mkdir -p qc out
 
 for file in raw/*.fastq.gz; do 
     fastqc -t 4 -o qc "$file"
@@ -64,7 +64,6 @@ multiqc reqc -o . -n trimmed_multiqc_report.html
 map to reference using `BWA-MEM`
 ```bash
 # real	4m36.037s
-mkdir out
 bwa mem -Ma -t 4 \
 -R "@RG\tID:Blood\tSM:Blood\tPL:ILLUMINA\tLB:ILLUMINA" \
 ref/hg38.fa \
@@ -121,8 +120,6 @@ gatk MarkDuplicatesSpark -I out/Svz.sam -O out/Svz.bam --spark-master "local[4]"
 for sample in Blood Tumor Svz; do
   gatk MarkDuplicatesSpark -I out/${sample}.sam -O out/${sample}.bam --spark-master "local[4]"
 done
-
-ls out
 ```
 
 Then, again check with `samtools` as above

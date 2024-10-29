@@ -24,7 +24,9 @@ git sparse-checkout set raw
 git lfs pull
 
 cp raw/* "$TARGET_DIR/"
+rm -rf MSE801_JHLEE
 echo "Files have been downloaded to $TARGET_DIR"
+
 
 
 ### Following sections were prepared for the demo ###
