@@ -1,0 +1,10 @@
+/data
+/out
+/ref
+/tmp
+/original
+/qc
+/raw_multiqc_report_data
+/ready_multiqc_report_data
+slide.qmd
+prep.sh

@@ -1,0 +1,9 @@
+fastqc
+multiqc
+seqkit
+fastp
+bwa
+samtools
+bcftools
+gatk4
+parallel
