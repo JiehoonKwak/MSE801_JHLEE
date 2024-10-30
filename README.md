@@ -11,8 +11,9 @@ For those who wants to follow the whole workflow with real-world dataset, refer 
 1. In your labtop, install `IGV` and processed data
 - [IGV](https://software.broadinstitute.org/software/igv/download) : for visualization of bam/vgf files
 - [Processed data](https://jjhouse0722.myds.me/d/s/10ggaQvSdhQD2p29cjTx2AOMUrH3JAMR/tD6gUmmP8Wk2LVpzuOqHYzgLMwak1XM--Or1g2xTnxgs) : I already run the codes and uploaded the processed data. You can download the data from the link. We will run subsetted data, because the original data is computationaly expensive. (cf. links will be expired after class)
+  - if the above link does not work, please use this [Google Drive link](https://drive.google.com/drive/folders/13Xtutkgo0CzPM_Tn3IRtN1TT2VNdUcIM?usp=sharing)
 
-2. install packages from `requirements.txt` in your own, new conda environment
+1. install packages from `requirements.txt` in your own, new conda environment
 ```bash
 curl -L -O https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/requirements.txt
 conda create -n YOUR_ENV -y
@@ -20,12 +21,12 @@ conda activate YOUR_ENV
 conda install --file requirements.txt  -c conda-forge -c bioconda -y
 ```
 
-3. download the data from the link provided in [HERE](docs/demo_setup.md)
+1. download the data from the link provided in [HERE](docs/demo_setup.md)
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh)
 ```
 
-4. Then, make a link to shared files from the server
+1. Then, make a link to shared files from the server
 ```bash
 # first go to your working directory
 mkdir -p ref && cd ref && ln -s /home/users/SHARE/jhlee/ref/* .
