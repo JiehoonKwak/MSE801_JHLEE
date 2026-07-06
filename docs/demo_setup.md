@@ -1,8 +1,14 @@
 # Data Preparation
 - **This is data prepartion process for demo workflow. If you want to follow whole workflow with real-world dataset, refer to [this](whole_setup.md)**
-- **TL;DR** : run following code
+- **TL;DR** : run following code first (이 단계로 1~4번은 모두 준비됩니다)
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh)
+curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh -o download_demo.sh
+bash download_demo.sh
+```
+
+If you want the script to use another path:
+```bash
+bash download_demo.sh ~/mse801/raw ~/mse801/ref
 ```
 
 ## How datas were created
@@ -13,7 +19,7 @@ ls *.fastq.gz | parallel -j 6 'seqtk sample -s777 {} 0.01 | gzip > sample/subsam
 ```
 
 1. Download sequence of Chr5 (Reference genome)
-- [GRCh38's Chr5](https://hgrdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz)
+- [GRCh38's Chr5](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr5.fa.gz)
 ```bash
 curl -L https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr5.fa.gz -o hg38.fa.gz
 ```
@@ -21,8 +27,8 @@ curl -L https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr5.fa.gz -
 2. Download Base Quality Score Recalibration (BQSR)
 - BQSR : [Link](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR)
 ```bash
-curl -L https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf -o Homo_sapiens_assembly38.dbsnp138.vcf
-curl -L https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.idx -o Homo_sapiens_assembly38.dbsnp138.vcf.idx
+curl -L https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.gz -o Homo_sapiens_assembly38.dbsnp138.vcf.gz
+curl -L https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi -o Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi
 ```
 
 3. Download Mutect2 resources

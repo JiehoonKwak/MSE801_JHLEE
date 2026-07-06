@@ -129,15 +129,15 @@ adjust base quality based on machine learning, using known variants
 1. Build Model
 ```bash
 # real	1m26.424s
-gatk BaseRecalibratorSpark -I out/Blood.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_blood.table --spark-master "local[4]"
+gatk BaseRecalibratorSpark -I out/Blood.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf.gz -O out/recal_data_blood.table --spark-master "local[4]"
 
-gatk BaseRecalibratorSpark -I out/Tumor.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_tumor.table --spark-master "local[4]"
+gatk BaseRecalibratorSpark -I out/Tumor.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf.gz -O out/recal_data_tumor.table --spark-master "local[4]"
 
-gatk BaseRecalibratorSpark -I out/Svz.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_svz.table --spark-master "local[4]"
+gatk BaseRecalibratorSpark -I out/Svz.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf.gz -O out/recal_data_svz.table --spark-master "local[4]"
 
 # you can do this way
 for sample in Blood Tumor Svz; do
-  gatk BaseRecalibratorSpark -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf -O out/recal_data_${sample}.table --spark-master "local[4]" # --tmp-dir /tmp
+  gatk BaseRecalibratorSpark -I out/${sample}.bam -R ref/hg38.fa --known-sites ref/Homo_sapiens_assembly38.dbsnp138.vcf.gz -O out/recal_data_${sample}.table --spark-master "local[4]" # --tmp-dir /tmp
 done
 
 ```

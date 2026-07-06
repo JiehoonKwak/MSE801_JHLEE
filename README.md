@@ -8,10 +8,9 @@ For those who wants to follow the whole workflow with real-world dataset, refer 
 
 
 ## Before we begin!
-1. In your labtop, install `IGV` and processed data
-- [IGV](https://software.broadinstitute.org/software/igv/download) : for visualization of bam/vgf files
-- [Processed data](https://jjhouse0722.myds.me/d/s/10ggaQvSdhQD2p29cjTx2AOMUrH3JAMR/tD6gUmmP8Wk2LVpzuOqHYzgLMwak1XM--Or1g2xTnxgs) : I already run the codes and uploaded the processed data. You can download the data from the link. We will run subsetted data, because the original data is computationaly expensive. (cf. links will be expired after class)
-  - if the above link does not work, please use this [Google Drive link](https://drive.google.com/drive/folders/13Xtutkgo0CzPM_Tn3IRtN1TT2VNdUcIM?usp=sharing)
+1. Install `IGV` and required packages
+- [IGV](https://software.broadinstitute.org/software/igv/download) : for visualization of bam/vcf files
+- [Conda](https://docs.conda.io/projects/conda/en/stable/) (if not installed yet)
 
 2. install packages from `requirements.txt` in your own, new conda environment
 ```bash
@@ -21,15 +20,15 @@ conda activate YOUR_ENV
 conda install --file requirements.txt  -c conda-forge -c bioconda -y
 ```
 
-3. download the data from the link provided in [HERE](docs/demo_setup.md)
+3. Download required raw data and reference files
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh)
+curl -s https://raw.githubusercontent.com/JiehoonKwak/MSE801_JHLEE/main/download_demo.sh -o download_demo.sh
+bash download_demo.sh
 ```
 
-4. Then, make a link to shared files from the server
+4. (Optional) place data anywhere and run with arguments
 ```bash
-# first go to your working directory
-mkdir -p ref && cd ref && ln -s /home/users/SHARE/jhlee/ref/* .
+bash download_demo.sh /path/to/raw /path/to/ref
 ```
   
 Ready? Let's start!  
@@ -39,4 +38,3 @@ Ready? Let's start!
 - Part1 : [Process Analyze-ready bam file](docs/1_pp.md)
 - Part2 : [Variant Calling & Downstream Analysis](docs/2_vc.md)
 - Part3 : Amplicon sequencing using `dada2` or `CRISPResso`
-
